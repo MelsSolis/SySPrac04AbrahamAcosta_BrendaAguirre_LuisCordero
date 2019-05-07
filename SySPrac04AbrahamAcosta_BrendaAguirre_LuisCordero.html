@@ -1,0 +1,611 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PR&Aacute;CTICA 4. Convoluci&oacute;n y Correlacion de Se&ntilde;ales en tiempo cont&iacute;nuo.</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-05-07"><meta name="DC.source" content="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PR&Aacute;CTICA 4. Convoluci&oacute;n y Correlacion de Se&ntilde;ales en tiempo cont&iacute;nuo.</h1><!--introduction--><p><b>Autores:</b></p><div><ul><li><b>Acosta Villa Cristian Abraham</b></li></ul></div><div><ul><li><b>Aguirre Solis Brenda Melissa</b></li></ul></div><div><ul><li><b>Cordero Montes de Oca Luis Alberto</b></li></ul></div><p><b>SE&Ntilde;ALES Y SISTEMAS, Grupo 2TV1</b></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos de la pr&aacute;ctica.</a></li><li><a href="#2">Introducci&oacute;n.</a></li><li><a href="#9">Desarrollo.</a></li><li><a href="#10">Ejercicio 1</a></li><li><a href="#14">Ejercicio 2</a></li><li><a href="#18">Ejercicio 3</a></li><li><a href="#22">Ejercicio 4</a></li></ul></div><h2 id="1">Objetivos de la pr&aacute;ctica.</h2><div><ul><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica.</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li><li>Simular convoluciones y correlaciones de se&ntilde;ales cont&iacute;nuas.</li></ul></div><h2 id="2">Introducci&oacute;n.</h2><p><b>Convoluci&oacute;n</b></p><p>Podemos mirar a la convoluci&oacute;n de dos funciones f(x) y g(z) como la funci&oacute;n resultante que aparece despu&eacute;s de efectuar los siguientes pasos: Girar respecto del origen los valores de una de ellas, es decir g(z) = g(-z) para todo z desde - <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq13940927193640476004.png" alt="$$ \infty $$" style="width:14px;height:7px;"> a <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq13940927193640476004.png" alt="$$ \infty $$" style="width:14px;height:7px;">, Ir trasladando la funci&oacute;n girada sobre la otra f(z) * g(x-z) En cada punto x calculamos el valor que resulta de sumar los productos obtenidos de multiplicar para todos los z los correspondientes valores de las funciones f(z) y g(x-z). De esta forma:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq03405312241850635588.png" alt="$$ f(x)*g(x) = h(x) = \int_{-\infty}^{\infty} f(z)*g(x-z)dz $$" style="width:275px;height:34px;"></p><p><b>Correlaci&oacute;n</b></p><p>Es b&aacute;sicamente lo mismo que la convoluci&oacute;n a excepci&oacute;n de que no e toma desde el origen.</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq01661397902356296112.png" alt="$$ f(x)*g(x) = h(x) = \int_{-\infty}^{\infty} f(x)*g(x+z)dz $$" style="width:276px;height:34px;"></p><p><b>Teor&iacute;a fundamental del c&aacute;lculo</b></p><p>Sea f una funci&oacute;n integrable en el intervalo [a,b]. * F debe ser continua [a,b] *	En todo punto c de [a,b] en el que f sea continua se verifica que F es derivable en dicho punto, y F&#8217;(c)=f(c)</p><p><img vspace="5" hspace="5" src=" 1.jpg " alt=""> </p><p><b>Newton-Cotes, regla del trapecio.</b></p><p>La regla del trapecio es uno de los m&eacute;todos m&aacute;s utilizados para calcular aproximaciones num&eacute;ricas de integrales definidas. Es la primera de las f&oacute;rmulas cerradas de integraci&oacute;n de Newton &#8211; Cotes, para el caso cuando el polinomio interpolante es de grado uno. Para el polinomio interpolante de primer grado se tiene:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq14873208436045084713.png" alt="$$ A=\int baf(x)dx=\int baf1(x)dx $$" style="width:208px;height:33px;">, donde</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq17875525602215196711.png" alt="$$ f1(x)=f(a)+f(b)-f(a)b-a(x-a) $$" style="width:250px;height:15px;"></p><p>Precisamente el &aacute;rea bajo la recta es una aproximaci&oacute;n de la integral <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq17510345872271578333.png" alt="$$ \int baf(x)dx $$" style="width:75px;height:33px;">, es decir que <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq08619516050305122413.png" alt="$$ A=\int_ba[f(a)+f(b)-f(a)b-a(x-a)]dx $$" style="width:273px;height:34px;">.</p><p><b>Newton Cotes. Regla de Simpson, regla de 3/8 de Simpson</b></p><p>De manera similar a la derivaci&oacute;n de la regla trapezoidal, se ajustan los polinomios de Lagrange de tercer orden a cuatro puntos e integrar:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq10163878449662782683.png" alt="$$ I = \int_{a}^{b} f(x)dx =  \int_{a}^{b} f_3(x)dx $$" style="width:184px;height:37px;"></p><p>Obienes:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq15244862096162899745.png" alt="$$ I = (b-a)*(f(x_0)+3f(x_1 )+3f(x_2 )+f(x_3))/8 $$" style="width:316px;height:15px;"></p><p>En donde <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq13806948673439963138.png" alt="$$ h = (b-a)/3 $$" style="width:85px;height:15px;"> . A esta ecuaci&oacute;n  se le llama la regla de Simpson de 3/8 porque h es un m&uacute;ltiplo de 3/8.</p><p><b>Regla del trapecio compuesta. Regla de Simpson compuesta.</b></p><p>La regla del trapecio compuesta o regla de los trapecios es una forma de aproximar una integral definida utilizando n trapecios. En la formulaci&oacute;n de este m&eacute;todo se supone que f es continua y positiva en el intervalo [a,b]. De tal modo la integral definida</p><p><img vspace="5" hspace="5" src=" 2.jpg " alt=""> </p><p>representa el &aacute;rea de la regi&oacute;n delimitada por la gr&aacute;fica de f y el eje x, desde x=a hasta x=b. Primero se divide el intervalo [a,b] en nsubintervalos, cada uno de ancho</p><p><img vspace="5" hspace="5" src=" 4.jpg " alt=""> </p><p>Despu&eacute;s de realizar todo el proceso matem&aacute;tico se llega a la siguiente f&oacute;rmula:</p><p><img vspace="5" hspace="5" src=" 3.jpg " alt=""> </p><p>Donde <img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq07879633409710239205.png" alt="$$ h=(b-a)/n $$" style="width:86px;height:15px;"> y n es el n&uacute;mero de divisiones.</p><p>La expresi&oacute;n anterior tambi&eacute;n se puede escribir como:</p><p><img vspace="5" hspace="5" src=" 5.jpg " alt=""> </p><p><b>Cuadratura Gaussiana</b></p><p>El objetivo de la cuadratura de Gauss - Legendre es determinar las abscisas x1 y x2 y dos coeficientes w1 y w2 de manera que la f&oacute;rmula:</p><p><img vspace="5" hspace="5" src=" 6.jpg " alt=""> </p><p>sea exacta para polinomios c&uacute;bicos de la forma f(x) = a3x3 + a2x2 + a1x +a0. Como hay que determinar cuatro n&uacute;meros w1, w2, x1 y x2 en la expresi&oacute;n anterior, se deben seleccionar cuatro condiciones que deben cumplirse. Usando el hecho de que la integraci&oacute;n es aditiva, ser&aacute; suficiente con exigir que la integral anterior sea exacta para las cuatro funciones f(x) = 1, x, x2, x3. Por lo tanto, las cuatro condiciones de integraci&oacute;n son:</p><p><img vspace="5" hspace="5" src=" 7.jpg " alt=""> </p><p><img vspace="5" hspace="5" src=" 8.jpg " alt=""> </p><p><img vspace="5" hspace="5" src=" 9.jpg " alt=""> </p><p><img vspace="5" hspace="5" src=" 10.jpg " alt=""> </p><p><img vspace="5" hspace="5" src=" 11.jpg " alt=""> </p><p>La soluci&oacute;n del sistema anterior est&aacute; dada por:</p><p><img vspace="5" hspace="5" src=" 12.jpg " alt=""> </p><p><img vspace="5" hspace="5" src=" 13.jpg " alt=""> </p><p>As&iacute;, se ha encontrado los nodos y los coeficientes o pesos con los que se construye la cuadratura de Gauss - Legendre. En consecuencia, si f es continua en [-1;1], resulta:</p><p><img vspace="5" hspace="5" src=" 14.jpg " alt=""> </p><p>La cuadratura de Gauss - Legendre con dos nodos G2(f) tiene grado de precisi&oacute;n n=3 y si f pertenece a C4[-1;1], entonces,</p><p><img vspace="5" hspace="5" src=" 15.jpg " alt=""> </p><p>siendo</p><p><img vspace="5" hspace="5" src=" 16.jpg " alt=""> </p><p>para alg&uacute;n punto epsilon que pertenece a [-1;1].</p><h2 id="9">Desarrollo.</h2><h2 id="10">Ejercicio 1</h2><p>Realizaremos la convoluci&oacute;n de las siguientes se&ntilde;ales:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq04113863428922911167.png" alt="$$h(t) = (-t+1)*(u(t)-u(t-1))+(t-1)*(u(t-1)-u(t-2))$$" style="width:418px;height:15px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq13840836330471972754.png" alt="$$x(t) = u(t)-u(t-1)$$" style="width:137px;height:15px;"></p><p>En este caso, tomaremos h(t) como la se&ntilde;al fija h(T) y x(t) ser&aacute; nuestra x(t-T).</p><p>Entonces, nuestras integrales quedar&iacute;an de la siguiente forma.</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq11063284326412251046.png" alt="$$ f1(t)=\int_{0}^{t}-T+1 dT = \frac{-t^2}{2}+t $$" style="width:207px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq07342060736937535175.png" alt="$$ f2(t)=\int_{-1+t}^{1}-T+1 dT + \int_{1}^{t}T-1 dT = t^2-3t+\frac{5}{2} $$" style="width:335px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq01157903972827761683.png" alt="$$ f3(t)=\int_{-1+t}^{2}T-1 dT = \frac{-t^2}{2}+2t-\frac{3}{2} $$" style="width:246px;height:38px;"></p><p>Al realizar la convoluci&oacute;n, la se&ntilde;al resultante tendr&aacute; una longitud de 3.</p><p>Los intervalos son los siguientes:</p><p><img vspace="5" hspace="5" src=" formula4.png " alt=""> </p><p>Entonces, las gr&aacute;ficas son las siguientes:</p><p>Grafica de la convoluci&oacute;n</p><pre class="codeinput">h1 = @(t) 1*((-t+1).*(t&gt;=0&amp;t&lt;1)+(t-1).*(t&gt;=1&amp;t&lt;2));
+x1 = @(t) 1*((t&gt;=0&amp;t&lt;1));
+convconm(x1,h1)
+
+h2 = @(t) 1*(t).*(t&gt;=0&amp;t&lt;1)+1*((t&gt;=1&amp;t&lt;2));
+x2 = @(t) 1*((t&gt;=1&amp;t&lt;3));
+convconm2(x2,h2)
+
+h3 = @(t) 1*(t&gt;=0&amp;t&lt;3)+(-1*((t&gt;=3&amp;t&lt;4)));
+x3 = @(t) 1*(t&gt;=0&amp;t&lt;3)+(-1*((t&gt;=3&amp;t&lt;4)));
+convconm3(x3,h3)
+
+x_0 = @(t) 1*(t&gt;=0&amp;t&lt;2)+(-1*((t&gt;=2&amp;t&lt;4)));
+x_1 = @(t) 1*(t&gt;=0&amp;t&lt;3)+(-1*((t&gt;=3&amp;t&lt;4)));
+convconm4(x_0,x_1)
+
+<span class="keyword">function</span> convconm(x1,h1)
+  figure (1) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+  dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral</span>
+  tau = -1:dtau:4; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+  ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+  tvec = -.25:.1:3.75; <span class="comment">% traslaciones de t, cuantas integrales se calulan</span>
+  y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+  <span class="keyword">for</span> t = tvec, <span class="comment">% Cantidad de traslaciones</span>
+      ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+      xh = x1(t-tau).*h1(tau); <span class="comment">% resultado de la multiplicaci&oacute;n</span>
+      lxh = length(xh); <span class="comment">% longitud del resultado</span>
+      y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+      subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+      plot(tau, h1(tau), <span class="string">'m-'</span>, tau, x1(t-tau), <span class="string">'k--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas</span>
+      axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+      [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+      xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+      legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto</span>
+      subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+      plot (tvec, y, <span class="string">'b'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+      xlabel (<span class="string">'t'</span>);
+      ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+      axis ([tau(1) tau(end) -1.0 2.0]); <span class="comment">% l&iacute;mites del eje</span>
+      grid; <span class="comment">% malla</span>
+      drawnow; <span class="comment">% efecto de movimiento continuo</span>
+  <span class="keyword">end</span>
+  <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_01.png" alt=""> <h2 id="14">Ejercicio 2</h2><p>Realizaremos la convoluci&oacute;n de las siguientes se&ntilde;ales:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq18231978490308972658.png" alt="$$h(t) = t*((u(t)-u(t-1))+(u(t-1)-u(t-2))$$" style="width:321px;height:15px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq14258526362001902802.png" alt="$$x(t) = u(t-1)-u(t-3)$$" style="width:162px;height:15px;"></p><p>En este caso, tomaremos h(t) como la se&ntilde;al fija h(T) y x(t) ser&aacute; nuestra x(t-T).</p><p>Las integrales quedar&iacute;an de la siguiente manera:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq05208422160131476800.png" alt="$$ f1(t)=\int_{0}^{-1+t}T dT = \frac{-t^2}{2}-t+\frac{1}{2} $$" style="width:219px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq02847723176156587562.png" alt="$$ f2(t)=\int_{0}^{1}T dT + \int_{1}^{-1+t}dT = t-\frac{3}{2} $$" style="width:234px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq16207233714494475777.png" alt="$$ f3(t)=\int_{0}^{1}T dT + \int_{1}^{2}dT = \frac{3}{2} $$" style="width:191px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq07058661290819852566.png" alt="$$ f4(t)=\int_{-3+t}^{1}T dT + \int_{1}^{2}dT = \frac{t^2}{2}-3t+6 $$" style="width:266px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq01190358249665571682.png" alt="$$ f5(t)=\int_{-3+t}^{2}dT = -t+5 $$" style="width:167px;height:38px;"></p><p>Al realizar la convoluci&oacute;n, la se&ntilde;al resultante tendr&aacute; una longitud de 3. Los intervalos son los siguientes:</p><p><img vspace="5" hspace="5" src=" formula3.png " alt=""> </p><p>Entonces, las gr&aacute;ficas son las siguientes:</p><p>Grafica de la convoluci&oacute;n</p><pre class="codeinput">  <span class="keyword">function</span> convconm2(x2,h2)
+  figure (2) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+  dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral</span>
+  tau = -1:dtau:7; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+  ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+  tvec = 0.5:.1:6; <span class="comment">% traslaciones de t, cuantas integrales se calulan</span>
+  y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+  <span class="keyword">for</span> t = tvec, <span class="comment">% Cantidad de traslaciones</span>
+      ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+      xh = x2(t-tau).*h2(tau); <span class="comment">% resultado de la multiplicaci&oacute;n</span>
+      lxh = length(xh); <span class="comment">% longitud del resultado</span>
+      y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+      subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+      plot(tau, h2(tau), <span class="string">'m-'</span>, tau, x2(t-tau), <span class="string">'k--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas</span>
+      axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+      [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+      xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+      legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto</span>
+      subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+      plot (tvec, y, <span class="string">'b'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+      xlabel (<span class="string">'t'</span>);
+      ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+      axis ([tau(1) tau(end) -1.0 2.0]); <span class="comment">% l&iacute;mites del eje</span>
+      grid; <span class="comment">% malla</span>
+      drawnow; <span class="comment">% efecto de movimiento continuo</span>
+  <span class="keyword">end</span>
+  <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_02.png" alt=""> <h2 id="18">Ejercicio 3</h2><p>Realizaremos la autocorrelaci&oacute;n de la siguiente se&ntilde;al:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq01783577393327807216.png" alt="$$g_{1,2}(t) = u(t)-2u(t-3)+u(t-4)$$" style="width:225px;height:15px;"></p><p>En este caso, invertiremos g_{2}(t) y quedar&iacute;a como g_{2}(t-T)</p><p>Las integrales quedar&iacute;an de la siguiente manera:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq09076172002765538511.png" alt="$$ f1(t)=\int_{0}^{t}dT = t $$" style="width:116px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq08718431667107808091.png" alt="$$ f2(t)= - \int_{0}^{-3+t}dT + \int_{-3+t}^{3}dT - \int_{3}^{t}dT = -3t+12 $$" style="width:332px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq05683636287226916193.png" alt="$$ f3(t)= - \int_{-4+t}^{-3+t}dT + \int_{-3+t}^{3}dT - \int_{3}^{4}dT = -t+4 $$" style="width:319px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq01114356559061280775.png" alt="$$ f4(t)= - \int_{-4+t}^{3}dT + \int_{3}^{-3+t}dT - \int_{-3+t}^{4}dT = 3t-20 $$" style="width:335px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq13165186723720277646.png" alt="$$ f5(t)=\int_{-4+t}^{4}dT = -t+8 $$" style="width:167px;height:38px;"></p><p>Al realizar la autocorrelaci&oacute;n, la se&ntilde;al resultante tendr&aacute; una longitud de 3. Los intervalos son los siguientes:</p><p><img vspace="5" hspace="5" src=" formula2.png " alt=""> </p><p>Entonces, las gr&aacute;ficas son las siguientes:</p><p>Grafica de la convoluci&oacute;n</p><pre class="codeinput"><span class="keyword">function</span> convconm3(x3,h3)
+  figure (3) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+  dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral</span>
+  tau = -6:dtau:9; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+  ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+  tvec = -1:.1:8.5; <span class="comment">% traslaciones de t, cuantas integrales se calulan</span>
+  y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+  <span class="keyword">for</span> t = tvec, <span class="comment">% Cantidad de traslaciones</span>
+      ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+      xh = x3(t-tau).*h3(tau); <span class="comment">% resultado de la multiplicaci&oacute;n</span>
+      lxh = length(xh); <span class="comment">% longitud del resultado</span>
+      y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+      subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+      plot(tau, h3(tau), <span class="string">'m-'</span>, tau, x3(t-tau), <span class="string">'k--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas</span>
+      axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+      [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+      xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+      legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto</span>
+      subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+      plot (tvec, y, <span class="string">'b'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+      xlabel (<span class="string">'t'</span>);
+      ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+      axis ([tau(1) tau(end) -3.0 4.0]); <span class="comment">% l&iacute;mites del eje</span>
+      grid; <span class="comment">% malla</span>
+      drawnow; <span class="comment">% efecto de movimiento continuo</span>
+  <span class="keyword">end</span>
+  <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_03.png" alt=""> <h2 id="22">Ejercicio 4</h2><p>Realizaremos la correlaci&oacute;n de las siguientes se&ntilde;ales:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq04801664191828399525.png" alt="$$x_{0}(t) = u(t)-2u(t-2)+u(t-4)$$" style="width:218px;height:15px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq16266496941633713921.png" alt="$$x_{1}(t) = u(t)-2u(t-3)+u(t-4)$$" style="width:218px;height:15px;"></p><p>En este caso, invertiremos x_{1}(t), entonces quedar&aacute; como x_{1}(t-T)</p><p>Las integrales quedar&iacute;an de la siguiente manera:</p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq14498153082141458432.png" alt="$$ f1(t)= \int_{0}^{t}dT = t $$" style="width:116px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq14365461352461354959.png" alt="$$ f2(t)= \int_{0}^{2}dT - \int_{2}^{t}dT = -t+4 $$" style="width:212px;height:37px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq06422215118145830794.png" alt="$$ f3(t)= - \int_{0}^{-3+t}dT + \int_{-3+t}^{2}dT - \int_{2}^{t}dT = -3t+10 $$" style="width:332px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq10767976727090538904.png" alt="$$ f4(t)= - \int_{-4+t}^{-3+t}dT + \int_{-3+t}^{2}dT - \int_{2}^{4}dT = -t+2 $$" style="width:319px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq09941572876876668123.png" alt="$$ f5(t)= - \int_{-4+t}^{2}dT + \int_{2}^{-3+t}dT - \int_{-3+t}^{4}dT = 3t-18 $$" style="width:335px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq00776470382447983995.png" alt="$$ f6(t)=  \int_{-4+t}^{-3+t}dT - \int_{-3+t}^{4}dT = t-6 $$" style="width:234px;height:38px;"></p><p><img src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_eq00610611652144494842.png" alt="$$ f7(t)= \int_{-4+t}^{4}dT = -t+8 $$" style="width:167px;height:38px;"></p><p>Al realizar la autocorrelaci&oacute;n, la se&ntilde;al resultante tendr&aacute; una longitud de 3. Los intervalos son los siguientes:</p><p><img vspace="5" hspace="5" src=" formula1.png " alt=""> </p><p>Entonces, las gr&aacute;ficas son las siguientes:</p><p>Grafica de la convoluci&oacute;n</p><pre class="codeinput"><span class="keyword">function</span> convconm4(x_0,x_1)
+  figure (4) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+  dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral</span>
+  tau = -6:dtau:9; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+  ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+  tvec = -1:.1:8.5; <span class="comment">% traslaciones de t, cuantas integrales se calulan</span>
+  y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+  <span class="keyword">for</span> t = tvec, <span class="comment">% Cantidad de traslaciones</span>
+      ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+      xh = x_0(t-tau).*x_1(tau); <span class="comment">% resultado de la multiplicaci&oacute;n</span>
+      lxh = length(xh); <span class="comment">% longitud del resultado</span>
+      y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+      subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+      plot(tau, x_0(tau), <span class="string">'m-'</span>, tau, x_1(t-tau), <span class="string">'k--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas</span>
+      axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+      [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+      xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+      legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto</span>
+      subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+      plot (tvec, y, <span class="string">'b'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+      xlabel (<span class="string">'t'</span>);
+      ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+      axis ([tau(1) tau(end) -3.0 4.0]); <span class="comment">% l&iacute;mites del eje</span>
+      grid; <span class="comment">% malla</span>
+      drawnow; <span class="comment">% efecto de movimiento continuo</span>
+  <span class="keyword">end</span>
+  <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="SySPrac04AbrahamAcosta_BrendaAguirre_LuisCordero_04.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PRÁCTICA 4. Convolución y Correlacion de Señales en tiempo contínuo.
+% *Autores:*
+%
+% * *Acosta Villa Cristian Abraham*
+%
+% * *Aguirre Solis Brenda Melissa*
+%
+% * *Cordero Montes de Oca Luis Alberto*
+%
+% *SEÑALES Y SISTEMAS, Grupo 2TV1*
+
+%% Objetivos de la práctica.
+% * Conocer métodos básicos de integración numérica.
+% * Manipulación de instrucciones en MATLAB
+% * Simular convoluciones y correlaciones de señales contínuas.
+%% Introducción.
+% *Convolución*
+%
+% Podemos mirar a la convolución de dos funciones f(x) y g(z) como la función resultante que aparece después de efectuar los siguientes pasos:
+% Girar respecto del origen los valores de una de ellas, es decir g(z) = g(-z) para todo z desde - $$ \infty $$ a $$ \infty $$,
+% Ir trasladando la función girada sobre la otra f(z) * g(x-z)
+% En cada punto x calculamos el valor que resulta de sumar los productos obtenidos de multiplicar para todos los z los correspondientes valores de las funciones f(z) y g(x-z).
+% De esta forma:
+%
+% $$ f(x)*g(x) = h(x) = \int_{-\infty}^{\infty} f(z)*g(x-z)dz $$
+%
+% *Correlación*
+%
+% Es básicamente lo mismo que la convolución a excepción de que no e toma desde el origen.
+% 
+% $$ f(x)*g(x) = h(x) = \int_{-\infty}^{\infty} f(x)*g(x+z)dz $$
+%
+%%
+% *Teoría fundamental del cálculo*
+%
+% Sea f una función integrable en el intervalo [a,b].
+% * F debe ser continua [a,b]
+% *	En todo punto c de [a,b] en el que f sea continua se verifica que F es derivable en dicho punto, y F’(c)=f(c)
+%%
+% << 1.jpg >>
+%%
+% *Newton-Cotes, regla del trapecio.*
+%
+% La regla del trapecio es uno de los métodos más utilizados para calcular aproximaciones numéricas de integrales definidas. Es la primera de las fórmulas cerradas de integración de Newton – Cotes, para el caso cuando el polinomio interpolante es de grado uno.
+% Para el polinomio interpolante de primer grado se tiene:
+%
+% $$ A=\int baf(x)dx=\int baf1(x)dx $$, donde 
+%
+% $$ f1(x)=f(a)+f(b)-f(a)b-a(x-a) $$
+%
+% Precisamente el área bajo la recta es una aproximación de la integral $$ \int baf(x)dx $$, es decir que $$ A=\int_ba[f(a)+f(b)-f(a)b-a(x-a)]dx $$.
+%
+%%
+% *Newton Cotes. Regla de Simpson, regla de 3/8 de Simpson*
+%
+% De manera similar a la derivación de la regla trapezoidal, se ajustan los polinomios de Lagrange de tercer orden a cuatro puntos e integrar:
+% 
+% $$ I = \int_{a}^{b} f(x)dx =  \int_{a}^{b} f_3(x)dx $$
+% 
+% Obienes:
+%
+% $$ I = (b-a)*(f(x_0)+3f(x_1 )+3f(x_2 )+f(x_3))/8 $$
+%
+% En donde $$ h = (b-a)/3 $$ . A esta ecuación  se le llama la regla de Simpson de 3/8 porque h es un múltiplo de 3/8.
+%%
+% *Regla del trapecio compuesta. Regla de Simpson compuesta.*
+%
+% La regla del trapecio compuesta o regla de los trapecios es una forma de aproximar una integral definida utilizando n trapecios. En la formulación de este método se supone que f es continua y positiva en el intervalo [a,b]. De tal modo la integral definida
+% 
+% << 2.jpg >> 
+% 
+% representa el área de la región delimitada por la gráfica de f y el eje x, desde x=a hasta x=b. Primero se divide el intervalo [a,b] en nsubintervalos, cada uno de ancho 
+% 
+% << 4.jpg >>
+% 
+% Después de realizar todo el proceso matemático se llega a la siguiente fórmula:
+%
+% << 3.jpg >>
+%
+% Donde $$ h=(b-a)/n $$ y n es el número de divisiones.
+%
+% La expresión anterior también se puede escribir como:
+% 
+% << 5.jpg >>
+%%
+% *Cuadratura Gaussiana*
+%
+% El objetivo de la cuadratura de Gauss - Legendre es determinar las abscisas x1 y x2 y dos coeficientes w1 y w2 de manera que la fórmula:
+%
+% << 6.jpg >>
+%
+% sea exacta para polinomios cúbicos de la forma f(x) = a3x3 + a2x2 + a1x +a0. Como hay que determinar cuatro números w1, w2, x1 y x2 en la expresión anterior, se deben seleccionar cuatro condiciones que deben cumplirse. Usando el hecho de que la integración es aditiva, será suficiente con exigir que la integral anterior sea exacta para las cuatro funciones f(x) = 1, x, x2, x3. Por lo tanto, las cuatro condiciones de integración son:
+%
+% << 7.jpg >>
+%
+% << 8.jpg >>
+%
+% << 9.jpg >>
+%
+% << 10.jpg >>
+%
+% << 11.jpg >>
+%
+% La solución del sistema anterior está dada por:
+%
+% << 12.jpg >>
+%
+% << 13.jpg >>
+%
+% Así, se ha encontrado los nodos y los coeficientes o pesos con los que se construye la cuadratura de Gauss - Legendre. En consecuencia, si f es continua en [-1;1], resulta:
+% 
+% << 14.jpg >>
+%
+% La cuadratura de Gauss - Legendre con dos nodos G2(f) tiene grado de precisión n=3 y si f pertenece a C4[-1;1], entonces,
+%
+% << 15.jpg >>
+%
+% siendo
+% 
+% << 16.jpg >>
+%
+% para algún punto epsilon que pertenece a [-1;1].
+%
+%% Desarrollo.
+%
+%% Ejercicio 1
+% Realizaremos la convolución de las siguientes señales:
+%
+%
+% $$h(t) = (-t+1)*(u(t)-u(t-1))+(t-1)*(u(t-1)-u(t-2))$$
+%
+%
+% $$x(t) = u(t)-u(t-1)$$
+%
+%
+% En este caso, tomaremos h(t) como la señal fija h(T) y x(t) será nuestra
+% x(t-T).
+%%
+% Entonces, nuestras integrales quedarían de la siguiente forma.
+%
+% $$ f1(t)=\int_{0}^{t}-T+1 dT = \frac{-t^2}{2}+t $$
+%
+%
+% $$ f2(t)=\int_{-1+t}^{1}-T+1 dT + \int_{1}^{t}T-1 dT = t^2-3t+\frac{5}{2} $$
+%
+%
+% $$ f3(t)=\int_{-1+t}^{2}T-1 dT = \frac{-t^2}{2}+2t-\frac{3}{2} $$
+%
+%%
+% Al realizar la convolución, la señal resultante tendrá una longitud de 3.
+%
+% Los intervalos son los siguientes:
+%
+%
+% << formula4.png >>
+%
+%
+% Entonces, las gráficas son las siguientes:
+
+%%
+% Grafica de la convolución
+h1 = @(t) 1*((-t+1).*(t>=0&t<1)+(t-1).*(t>=1&t<2));
+x1 = @(t) 1*((t>=0&t<1));
+convconm(x1,h1)
+
+h2 = @(t) 1*(t).*(t>=0&t<1)+1*((t>=1&t<2));
+x2 = @(t) 1*((t>=1&t<3));
+convconm2(x2,h2)
+
+h3 = @(t) 1*(t>=0&t<3)+(-1*((t>=3&t<4)));
+x3 = @(t) 1*(t>=0&t<3)+(-1*((t>=3&t<4)));
+convconm3(x3,h3)
+
+x_0 = @(t) 1*(t>=0&t<2)+(-1*((t>=2&t<4)));
+x_1 = @(t) 1*(t>=0&t<3)+(-1*((t>=3&t<4)));
+convconm4(x_0,x_1)
+
+function convconm(x1,h1)
+  figure (1) % Se crea una figura para hacer las gráficas
+  dtau = 0.005; % Base de los rectangulos para realizar la integral 
+  tau = -1:dtau:4; % Intervalo de visualización del resultado
+  ti = 0; % Indice para el vector de resultados
+  tvec = -.25:.1:3.75; % traslaciones de t, cuantas integrales se calulan  
+  y = NaN*zeros(1, length (tvec)); % Resultados de acuerdo a cuantos t
+  for t = tvec, % Cantidad de traslaciones
+      ti = ti+1; % Indice para guardar el resultado (indice del tiempo)
+      xh = x1(t-tau).*h1(tau); % resultado de la multiplicación 
+      lxh = length(xh); % longitud del resultado
+      y(ti) = sum(xh.*dtau); % Base por altura, aproximación de la integral
+      subplot (2,1,1), % gráfica de 2 x 1 (primera)
+      plot(tau, h1(tau), 'm-', tau, x1(t-tau), 'kREPLACE_WITH_DASH_DASH', t, 0, 'ob'); %graficas 
+      axis ([tau(1) tau(end) -2.0 2.5]); % límites de los ejes
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],...
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],...
+      [.8 .8 .8], 'edgecolor', 'none');
+      xlabel('\tau'); % Texto del eje X
+      legend('h(\tau)', 'x(t-\tau)','t','h(\tau)x(t-\tau)')% Caja de Texto  
+      subplot (2, 1, 2)  % gráfica de 2 x 1 (segunda)
+      plot (tvec, y, 'b', tvec (ti), y(ti), 'ok');
+      xlabel ('t'); 
+      ylabel ('y(t) = \int h(\tau)x(t-\tau) d\tau');
+      axis ([tau(1) tau(end) -1.0 2.0]); % límites del eje
+      grid; % malla
+      drawnow; % efecto de movimiento continuo
+  end
+  end
+%% Ejercicio 2
+% Realizaremos la convolución de las siguientes señales:
+%
+%
+% $$h(t) = t*((u(t)-u(t-1))+(u(t-1)-u(t-2))$$
+%
+%
+% $$x(t) = u(t-1)-u(t-3)$$
+%
+%
+% En este caso, tomaremos h(t) como la señal fija h(T) y x(t) será nuestra
+% x(t-T).
+%%
+% Las integrales quedarían de la siguiente manera:
+% 
+% $$ f1(t)=\int_{0}^{-1+t}T dT = \frac{-t^2}{2}-t+\frac{1}{2} $$
+%
+% $$ f2(t)=\int_{0}^{1}T dT + \int_{1}^{-1+t}dT = t-\frac{3}{2} $$
+%
+% $$ f3(t)=\int_{0}^{1}T dT + \int_{1}^{2}dT = \frac{3}{2} $$
+%
+% $$ f4(t)=\int_{-3+t}^{1}T dT + \int_{1}^{2}dT = \frac{t^2}{2}-3t+6 $$
+%
+% $$ f5(t)=\int_{-3+t}^{2}dT = -t+5 $$
+%
+%%
+% Al realizar la convolución, la señal resultante tendrá una longitud de 3.
+% Los intervalos son los siguientes:
+%
+%
+% << formula3.png >>
+%
+%
+% Entonces, las gráficas son las siguientes:
+
+%%
+% Grafica de la convolución
+  
+  function convconm2(x2,h2)
+  figure (2) % Se crea una figura para hacer las gráficas
+  dtau = 0.005; % Base de los rectangulos para realizar la integral 
+  tau = -1:dtau:7; % Intervalo de visualización del resultado
+  ti = 0; % Indice para el vector de resultados
+  tvec = 0.5:.1:6; % traslaciones de t, cuantas integrales se calulan  
+  y = NaN*zeros(1, length (tvec)); % Resultados de acuerdo a cuantos t
+  for t = tvec, % Cantidad de traslaciones
+      ti = ti+1; % Indice para guardar el resultado (indice del tiempo)
+      xh = x2(t-tau).*h2(tau); % resultado de la multiplicación 
+      lxh = length(xh); % longitud del resultado
+      y(ti) = sum(xh.*dtau); % Base por altura, aproximación de la integral
+      subplot (2,1,1), % gráfica de 2 x 1 (primera)
+      plot(tau, h2(tau), 'm-', tau, x2(t-tau), 'kREPLACE_WITH_DASH_DASH', t, 0, 'ob'); %graficas 
+      axis ([tau(1) tau(end) -2.0 2.5]); % límites de los ejes
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],...
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],...
+      [.8 .8 .8], 'edgecolor', 'none');
+      xlabel('\tau'); % Texto del eje X
+      legend('h(\tau)', 'x(t-\tau)','t','h(\tau)x(t-\tau)')% Caja de Texto  
+      subplot (2, 1, 2)  % gráfica de 2 x 1 (segunda)
+      plot (tvec, y, 'b', tvec (ti), y(ti), 'ok');
+      xlabel ('t'); 
+      ylabel ('y(t) = \int h(\tau)x(t-\tau) d\tau');
+      axis ([tau(1) tau(end) -1.0 2.0]); % límites del eje
+      grid; % malla
+      drawnow; % efecto de movimiento continuo
+  end
+  end
+%% Ejercicio 3
+% Realizaremos la autocorrelación de la siguiente señal:
+%
+%
+% $$g_{1,2}(t) = u(t)-2u(t-3)+u(t-4)$$
+%
+%
+% En este caso, invertiremos g_{2}(t) y quedaría como g_{2}(t-T)
+%
+%%
+% Las integrales quedarían de la siguiente manera:
+% 
+% $$ f1(t)=\int_{0}^{t}dT = t $$
+%
+% $$ f2(t)= - \int_{0}^{-3+t}dT + \int_{-3+t}^{3}dT - \int_{3}^{t}dT = -3t+12 $$
+%
+% $$ f3(t)= - \int_{-4+t}^{-3+t}dT + \int_{-3+t}^{3}dT - \int_{3}^{4}dT = -t+4 $$
+%
+% $$ f4(t)= - \int_{-4+t}^{3}dT + \int_{3}^{-3+t}dT - \int_{-3+t}^{4}dT = 3t-20 $$
+%
+% $$ f5(t)=\int_{-4+t}^{4}dT = -t+8 $$
+%
+%%
+% Al realizar la autocorrelación, la señal resultante tendrá una longitud de 3.
+% Los intervalos son los siguientes:
+%
+%
+% << formula2.png >>
+%
+%
+% Entonces, las gráficas son las siguientes:
+
+%%
+% Grafica de la convolución
+
+function convconm3(x3,h3)
+  figure (3) % Se crea una figura para hacer las gráficas
+  dtau = 0.005; % Base de los rectangulos para realizar la integral 
+  tau = -6:dtau:9; % Intervalo de visualización del resultado
+  ti = 0; % Indice para el vector de resultados
+  tvec = -1:.1:8.5; % traslaciones de t, cuantas integrales se calulan  
+  y = NaN*zeros(1, length (tvec)); % Resultados de acuerdo a cuantos t
+  for t = tvec, % Cantidad de traslaciones
+      ti = ti+1; % Indice para guardar el resultado (indice del tiempo)
+      xh = x3(t-tau).*h3(tau); % resultado de la multiplicación 
+      lxh = length(xh); % longitud del resultado
+      y(ti) = sum(xh.*dtau); % Base por altura, aproximación de la integral
+      subplot (2,1,1), % gráfica de 2 x 1 (primera)
+      plot(tau, h3(tau), 'm-', tau, x3(t-tau), 'kREPLACE_WITH_DASH_DASH', t, 0, 'ob'); %graficas 
+      axis ([tau(1) tau(end) -2.0 2.5]); % límites de los ejes
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],...
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],...
+      [.8 .8 .8], 'edgecolor', 'none');
+      xlabel('\tau'); % Texto del eje X
+      legend('h(\tau)', 'x(t-\tau)','t','h(\tau)x(t-\tau)')% Caja de Texto  
+      subplot (2, 1, 2)  % gráfica de 2 x 1 (segunda)
+      plot (tvec, y, 'b', tvec (ti), y(ti), 'ok');
+      xlabel ('t'); 
+      ylabel ('y(t) = \int h(\tau)x(t-\tau) d\tau');
+      axis ([tau(1) tau(end) -3.0 4.0]); % límites del eje
+      grid; % malla
+      drawnow; % efecto de movimiento continuo
+  end
+  end
+%% Ejercicio 4
+% Realizaremos la correlación de las siguientes señales:
+%
+% $$x_{0}(t) = u(t)-2u(t-2)+u(t-4)$$
+%
+%
+% $$x_{1}(t) = u(t)-2u(t-3)+u(t-4)$$
+%
+% En este caso, invertiremos x_{1}(t), entonces quedará como x_{1}(t-T)
+%
+%%
+% Las integrales quedarían de la siguiente manera:
+% 
+% $$ f1(t)= \int_{0}^{t}dT = t $$
+%
+% $$ f2(t)= \int_{0}^{2}dT - \int_{2}^{t}dT = -t+4 $$
+%
+% $$ f3(t)= - \int_{0}^{-3+t}dT + \int_{-3+t}^{2}dT - \int_{2}^{t}dT = -3t+10 $$
+%
+% $$ f4(t)= - \int_{-4+t}^{-3+t}dT + \int_{-3+t}^{2}dT - \int_{2}^{4}dT = -t+2 $$
+%
+% $$ f5(t)= - \int_{-4+t}^{2}dT + \int_{2}^{-3+t}dT - \int_{-3+t}^{4}dT = 3t-18 $$
+%
+% $$ f6(t)=  \int_{-4+t}^{-3+t}dT - \int_{-3+t}^{4}dT = t-6 $$
+%
+% $$ f7(t)= \int_{-4+t}^{4}dT = -t+8 $$
+%
+%%
+% Al realizar la autocorrelación, la señal resultante tendrá una longitud de 3.
+% Los intervalos son los siguientes:
+%
+%
+% << formula1.png >>
+%
+%
+% Entonces, las gráficas son las siguientes:
+
+%%
+% Grafica de la convolución
+
+function convconm4(x_0,x_1)
+  figure (4) % Se crea una figura para hacer las gráficas
+  dtau = 0.005; % Base de los rectangulos para realizar la integral 
+  tau = -6:dtau:9; % Intervalo de visualización del resultado
+  ti = 0; % Indice para el vector de resultados
+  tvec = -1:.1:8.5; % traslaciones de t, cuantas integrales se calulan  
+  y = NaN*zeros(1, length (tvec)); % Resultados de acuerdo a cuantos t
+  for t = tvec, % Cantidad de traslaciones
+      ti = ti+1; % Indice para guardar el resultado (indice del tiempo)
+      xh = x_0(t-tau).*x_1(tau); % resultado de la multiplicación 
+      lxh = length(xh); % longitud del resultado
+      y(ti) = sum(xh.*dtau); % Base por altura, aproximación de la integral
+      subplot (2,1,1), % gráfica de 2 x 1 (primera)
+      plot(tau, x_0(tau), 'm-', tau, x_1(t-tau), 'kREPLACE_WITH_DASH_DASH', t, 0, 'ob'); %graficas 
+      axis ([tau(1) tau(end) -2.0 2.5]); % límites de los ejes
+      patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],...
+      [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],...
+      [.8 .8 .8], 'edgecolor', 'none');
+      xlabel('\tau'); % Texto del eje X
+      legend('h(\tau)', 'x(t-\tau)','t','h(\tau)x(t-\tau)')% Caja de Texto  
+      subplot (2, 1, 2)  % gráfica de 2 x 1 (segunda)
+      plot (tvec, y, 'b', tvec (ti), y(ti), 'ok');
+      xlabel ('t'); 
+      ylabel ('y(t) = \int h(\tau)x(t-\tau) d\tau');
+      axis ([tau(1) tau(end) -3.0 4.0]); % límites del eje
+      grid; % malla
+      drawnow; % efecto de movimiento continuo
+  end
+  end
+
+##### SOURCE END #####
+--></body></html>
